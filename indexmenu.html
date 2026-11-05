@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Concejo Municipal de Ibagué - Servicios Digitales</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    :root {
+      --gov-blue-dark: #0033A0;
+      --gov-blue-medium: #0048B3;
+      --gov-blue-light: #EBF3FF;
+      --gov-bg: #F0F4FA;
+      --gov-text-dark: #1E293B;
+      --gov-text-muted: #64748B;
+      --card-shadow: 0 10px 25px -5px rgba(0, 51, 160, 0.06), 0 8px 10px -6px rgba(0, 51, 160, 0.04);
+      --card-hover-shadow: 0 20px 30px -10px rgba(0, 72, 179, 0.15);
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--gov-bg);
+      color: var(--gov-text-dark);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Superior Minimalista */
+    .gov-header-top {
+      background-color: #ffffff;
+      border-bottom: 2px solid #E2E8F0;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      z-index: 1000;
+      flex-shrink: 0;
+    }
+
+    .btn-top-link {
+      color: var(--gov-blue-dark);
+      background-color: var(--gov-blue-light);
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 6px 18px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.92rem;
+      border: 1px solid transparent;
+    }
+
+    .btn-top-link:hover {
+      background-color: var(--gov-blue-dark);
+      color: #ffffff;
+    }
+
+    .btn-back-menu {
+      display: none;
+      background-color: var(--gov-blue-dark);
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 20px;
+      padding: 6px 18px;
+      border: none;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-back-menu:hover {
+      background-color: var(--gov-blue-medium);
+      color: #ffffff;
+    }
+
+    /* Contenedor Principal */
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* Vista de Tarjetas (Menú) */
+    .menu-view {
+      display: flex;
+      flex-direction: column;
+      padding: 2.5rem 0 4rem 0;
+    }
+
+    /* Membrete Oficial en la Página Principal */
+    .brand-header-main {
+      border-bottom: 2px solid #CBD5E1;
+      padding-bottom: 1rem;
+    }
+
+    .brand-title {
+      color: var(--gov-blue-dark);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      font-size: 1.6rem;
+    }
+
+    .brand-subtitle {
+      color: var(--gov-text-muted);
+      font-family: monospace;
+      font-size: 0.95rem;
+    }
+
+    .hero-title {
+      color: var(--gov-blue-medium);
+      font-weight: 700;
+      font-size: calc(1.3rem + 0.8vw);
+    }
+
+    .hero-subtitle {
+      color: var(--gov-blue-dark);
+      font-weight: 700;
+      font-size: 1.05rem;
+    }
+
+    .menu-card {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--card-hover-shadow);
+      border-color: var(--gov-blue-medium);
+    }
+
+    .icon-circle {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background-color: var(--gov-blue-dark);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      transition: transform 0.3s ease;
+    }
+
+    .menu-card:hover .icon-circle {
+      transform: scale(1.08);
+      background-color: var(--gov-blue-medium);
+    }
+
+    .card-title-custom {
+      color: var(--gov-blue-dark);
+      font-weight: 700;
+      font-size: 1.2rem;
+      line-height: 1.3;
+    }
+
+    .card-action {
+      color: var(--gov-blue-medium);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid #F1F5F9;
+      padding-top: 12px;
+      margin-top: auto;
+    }
+
+    /* Tarjeta QR / Acceso Móvil */
+    .qr-card-footer {
+      background: #ffffff;
+      border-radius: 20px;
+      border: 1px solid #E2E8F0;
+      box-shadow: var(--card-shadow);
+      padding: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .url-display-box {
+      background-color: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--gov-text-muted);
+      word-break: break-all;
+    }
+
+    .btn-copy {
+      background-color: var(--gov-blue-dark);
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 10px;
+      border: none;
+      padding: 10px 18px;
+      transition: background-color 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-copy:hover {
+      background-color: var(--gov-blue-medium);
+      color: #ffffff;
+    }
+
+    /* Vista Frame Completa */
+    .frame-view {
+      display: none;
+      width: 100%;
+      height: calc(100vh - 60px);
+      position: relative;
+      background: #ffffff;
+    }
+
+    .app-iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.9);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    /* Firma / Legal Crédito */
+    .copyright-tag {
+      text-align: right;
+      font-size: 0.8rem;
+      color: var(--gov-text-muted);
+      font-family: 'Work Sans', sans-serif;
+      margin-top: 1.5rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Superior Fijo (Solo Flecha de Inicio / Volver) -->
+  <header class="gov-header-top py-2">
+    <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+      <div>
+        <a href="https://concejodeibague.gov.co/" class="btn-top-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Ir a Inicio (concejodeibague.gov.co)</span>
+        </a>
+      </div>
+
+      <div>
+        <!-- Botón Volver al Menú (solo cuando se abre una aplicación en Iframe) -->
+        <button id="btnBack" class="btn-back-menu align-items-center gap-2" onclick="closeFrame()">
+          <i class="fa-solid fa-list"></i>
+          <span>Volver al Menú de Servicios</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ÁREA DE CONTENIDO -->
+  <div class="main-wrapper">
+    
+    <!-- 1. VISTA DE MENÚ PRINCIPAL -->
+    <div id="menuView" class="container menu-view">
+      
+      <!-- Encabezado con Escudos Oficiales -->
+      <div class="brand-header-main d-flex align-items-center gap-3 mb-4">
+        <div class="d-flex align-items-center gap-2 border-end pe-3">
+          <img src="https://concejodeibague.gov.co/sites/concejoibague/content/files/000001/33_logo_2_2018_200x200.png" alt="Escudo Colombia" height="55">
+          <img src="https://concejodeibague.gov.co/sites/concejoibague/content/files/000022/1081_logo-definitivo_200x200.png" alt="Escudo Ibagué" height="55">
+        </div>
+        <div>
+          <h1 class="brand-title mb-0">CONCEJO MUNICIPAL DE IBAGUÉ</h1>
+          <p class="brand-subtitle mb-0">Capital Musical de Colombia</p>
+        </div>
+      </div>
+
+      <!-- Título de Sección -->
+      <div class="mb-4">
+        <span id="greetingText" class="hero-subtitle d-block mb-1">¡Buenos días!</span>
+        <h2 class="hero-title mb-2">Servicios Digitales e Interacción Ciudadana</h2>
+        <p class="text-secondary fs-6 mb-0" style="max-width: 750px;">
+          Accede a los trámites, seguimiento normativo y servicios del Concejo Municipal de Ibagué.
+        </p>
+      </div>
+
+      <!-- Rejilla de Accesos Directos -->
+      <div class="row g-4">
+        
+        <!-- Tarjeta 1: Certificados -->
+        <div class="col-12 col-md-4">
+          <div class="menu-card" onclick="openApp('https://palmacera87-lgtm.github.io/Ssc32_Solutions/Soft.SolutionsCERTIFICADOS')">
+            <div class="icon-circle mb-3">
+              <i class="fa-solid fa-file-signature"></i>
+            </div>
+            <h3 class="card-title-custom mb-2">Certificados de Experiencia</h3>
+            <p class="text-muted small mb-4">
+              Expedición y consulta de certificaciones institucionales y laborales.
+            </p>
+            <div class="card-action">
+              <span>Abrir aplicación</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 2: Proyectos de Acuerdo -->
+        <div class="col-12 col-md-4">
+          <div class="menu-card" onclick="openApp('https://softsolsysco-ai.github.io/Ssc41_PROJECTS/IndexPublic')">
+            <div class="icon-circle mb-3">
+              <i class="fa-solid fa-folder-open"></i>
+            </div>
+            <h3 class="card-title-custom mb-2">Proyectos de Acuerdo</h3>
+            <p class="text-muted small mb-4">
+              Consulta el estado de trámite, ponencia e historial normativo municipal.
+            </p>
+            <div class="card-action">
+              <span>Abrir aplicación</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta 3: Gestión de Proposiciones -->
+        <div class="col-12 col-md-4">
+          <div class="menu-card" onclick="openApp('https://softsolsysco-ai.github.io/Ssc41_PROJECTS/IndexPubli2')">
+            <div class="icon-circle mb-3">
+              <i class="fa-solid fa-comments"></i>
+            </div>
+            <h3 class="card-title-custom mb-2">Gestión de Proposiciones</h3>
+            <p class="text-muted small mb-4">
+              Seguimiento a plenarias, control político y gestión de proposiciones.
+            </p>
+            <div class="card-action">
+              <span>Abrir aplicación</span>
+              <i class="fa-solid fa-chevron-right"></i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Tarjeta Inferior de Acceso Móvil y QR -->
+      <div class="qr-card-footer">
+        <div class="row align-items-center g-4">
+          <div class="col-12 col-lg-8">
+            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-2 mb-2 font-monospace">Validación de Seguridad SSL/TLS</span>
+            <h3 class="h4 text-primary font-weight-bold mb-2" style="color: var(--gov-blue-dark) !important;">
+              Acceso Móvil Directo y Código QR Institucional
+            </h3>
+            <p class="text-secondary small mb-3">
+              Escanee este código desde su dispositivo móvil para verificar la autenticidad del dominio en curso o compartir la plataforma oficial.
+            </p>
+            <div class="url-display-box" id="urlDisplay">
+              Cargando URL...
+            </div>
+          </div>
+          
+          <div class="col-12 col-lg-4 text-center">
+            <div class="p-3 bg-light rounded-4 border d-inline-block">
+              <div id="qrcode" class="d-flex justify-content-center mb-3"></div>
+              <button class="btn btn-copy w-100 d-flex align-items-center justify-content-center gap-2" onclick="copyUrl()">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copiar Enlace</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pie de página con Firma en la esquina inferior derecha -->
+      <div class="copyright-tag">
+        <strong>Software Solutions v.2026®</strong><br>
+        © 1995–2026 — By L.F.D.G. · All Rights Reserved ™
+      </div>
+
+    </div>
+
+    <!-- 2. VISTA DE FRAME (Visor embebido) -->
+    <div id="frameView" class="frame-view">
+      <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <div class="fw-semibold text-secondary">Cargando servicio digital...</div>
+      </div>
+      <iframe id="appIframe" class="app-iframe" src="" onload="hideLoading()"></iframe>
+    </div>
+
+  </div>
+
+  <script>
+    const menuView = document.getElementById('menuView');
+    const frameView = document.getElementById('frameView');
+    const appIframe = document.getElementById('appIframe');
+    const btnBack = document.getElementById('btnBack');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const urlDisplay = document.getElementById('urlDisplay');
+
+    // Saludo dinámico según la hora del día
+    function setDynamicGreeting() {
+      const hour = new Date().getHours();
+      const greetingElement = document.getElementById('greetingText');
+      if (hour >= 5 && hour < 12) {
+        greetingElement.innerText = '¡Buenos días!';
+      } else if (hour >= 12 && hour < 18) {
+        greetingElement.innerText = '¡Buenas tardes!';
+      } else {
+        greetingElement.innerText = '¡Buenas noches!';
+      }
+    }
+
+    setDynamicGreeting();
+
+    // Inicializar URL y QR
+    const currentUrl = window.location.href;
+    urlDisplay.innerText = currentUrl;
+
+    new QRCode(document.getElementById("qrcode"), {
+      text: currentUrl,
+      width: 140,
+      height: 140,
+      colorDark: "#0033A0",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    function openApp(url) {
+      loadingOverlay.style.display = 'flex';
+      appIframe.src = url;
+      menuView.style.display = 'none';
+      frameView.style.display = 'block';
+      btnBack.style.display = 'inline-flex';
+    }
+
+    function closeFrame() {
+      frameView.style.display = 'none';
+      appIframe.src = '';
+      menuView.style.display = 'flex';
+      btnBack.style.display = 'none';
+    }
+
+    function hideLoading() {
+      if (appIframe.src && appIframe.src !== 'about:blank') {
+        loadingOverlay.style.display = 'none';
+      }
+    }
+
+    function copyUrl() {
+      navigator.clipboard.writeText(currentUrl).then(() => {
+        alert("Enlace copiado al portapapeles: " + currentUrl);
+      });
+    }
+  </script>
+</body>
+</html>
