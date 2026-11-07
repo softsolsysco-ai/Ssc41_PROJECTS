@@ -19,9 +19,20 @@
     </style>
 </head>
 <body>
-    <iframe 
-        src="https://script.google.com/macros/s/AKfycbxF-fSfhfTD-gt67yA-JOWK1EAIkm4ML0jM4FoeJatWbYZm99l2VqfEucU6XazKPhfyyQ/exec?PUBLIC=2167"
-        allowfullscreen>
-    </iframe>
+    <iframe id="miIframe" allowfullscreen></iframe>
+
+    <script>
+        // Obtiene los parámetros de la URL actual
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Captura el valor de PUBLIC, o usa '2167' por defecto si no existe
+        const publicValue = urlParams.get('PUBLIC') || '2167';
+
+        // Construye la URL base del Apps Script
+        const baseUrl = "https://script.google.com/macros/s/AKfycbxF-fSfhfTD-gt67yA-JOWK1EAIkm4ML0jM4FoeJatWbYZm99l2VqfEucU6XazKPhfyyQ/exec";
+
+        // Asigna la URL con el parámetro dinámico al src del iframe
+        document.getElementById('miIframe').src = `${baseUrl}?PUBLIC=${publicValue}`;
+    </script>
 </body>
 </html>
